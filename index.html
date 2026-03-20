@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namaz Guide - Hinglish Mein</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.15em;
+            line-height: 2.2;
+            direction: ltr;
+            color: #1a3a2a !important;
+        }
+
+        .islamic-pattern {
+            background: linear-gradient(135deg, #065f46 0%, #047857 50%, #059669 100%);
+        }
+
+        .tab-active {
+            background: #059669 !important;
+            color: white !important;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(5,150,105,0.4);
+        }
+
+        .step-card {
+            border-left: 4px solid #059669;
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.15);
+        }
+
+        /* Main dua box — always light bg, dark text */
+        .dua-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 12px;
+            color: #14532d !important;
+        }
+        .dua-box * { color: #14532d !important; }
+
+        /* White box inside dark sections */
+        .dua-box-white {
+            background: #ffffff;
+            border: 2px solid #16a34a;
+            border-radius: 12px;
+            color: #14532d !important;
+        }
+        .dua-box-white * { color: #14532d !important; }
+        .dua-box-white .arabic-text { color: #14532d !important; }
+
+        .warning-box {
+            background: linear-gradient(to right, #fef2f2, #fee2e2);
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+        }
+
+        .rakat-header {
+            background: linear-gradient(to right, #065f46, #047857);
+        }
+
+        /* Step number badge */
+        .step-num {
+            background: #059669;
+            color: white;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Sequence step for beginner flow */
+        .seq-step {
+            background: white;
+            border: 2px solid #d1fae5;
+            border-radius: 16px;
+            transition: all 0.2s;
+        }
+        .seq-step:hover { border-color: #059669; box-shadow: 0 4px 12px rgba(5,150,105,0.15); }
+
+        /* Dark section text overrides */
+        .dark-section { background: linear-gradient(135deg, #1e1b4b, #3730a3); }
+        .dark-section-purple { background: linear-gradient(135deg, #4a1d96, #6d28d9); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+
+        /* Fix any remaining yellow/invisible text in dark bg */
+        .force-white { color: #ffffff !important; }
+        .force-dark  { color: #1a3a2a !important; }
+
+        body { background: #f8fafc; }
+
+        /* Better readability */
+        p, li, span { line-height: 1.7; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="islamic-pattern text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <div class="moon-star mb-2">☪️</div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Namaz Guide</h1>
+            <p class="text-green-100 text-sm md:text-base">Aasan Hinglish Mein Seekhein</p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-2">
+            <div class="flex overflow-x-auto py-2 gap-2 scrollbar-hide" id="tabContainer">
+                <button onclick="showTab('taiyaari')" id="tab-taiyaari" class="tab-btn tab-active flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🧼 Taiyaari
+                </button>
+                <button onclick="showTab('2rakat')" id="tab-2rakat" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🕌 2 Rakat
+                </button>
+                <button onclick="showTab('3rakat')" id="tab-3rakat" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🕌 3 Rakat
+                </button>
+                <button onclick="showTab('4rakat')" id="tab-4rakat" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🕌 4 Rakat
+                </button>
+                <button onclick="showTab('jumah')" id="tab-jumah" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🕋 Jumah
+                </button>
+                <button onclick="showTab('types')" id="tab-types" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    📚 Namaz Types
+                </button>
+                <button onclick="showTab('rozki')" id="tab-rozki" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🗓️ Roz Ki Namaz
+                </button>
+                <button onclick="showTab('witr')" id="tab-witr" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    🌙 Witr Namaz
+                </button>
+                <button onclick="showTab('rules')" id="tab-rules" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full bg-green-100 text-green-800 font-medium text-sm md:text-base transition-all duration-300 hover:bg-green-200">
+                    ⚠️ Zaroori Rules
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-4xl">
+        
+        <!-- TAB: TAIYAARI -->
+        <section id="content-taiyaari" class="tab-content fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-6 text-center">🧼 Namaz Ki Taiyaari</h2>
+            
+            <!-- Wuzu Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center gap-2">
+                    💧 Wuzu Ke Steps (Paaki)
+                </h3>
+                <div class="space-y-3">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">1</span>
+                        <span class="font-medium">Bismillah padhein aur haath dhoye (kalahi tak) - 3 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">2</span>
+                        <span class="font-medium">Kulli karein (munh mein paani daal kar ghumaayein) - 3 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">3</span>
+                        <span class="font-medium">Naak mein paani daalein aur saaf karein - 3 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">4</span>
+                        <span class="font-medium">Chehra dhoye (mathe se thodi tak, kaan se kaan tak) - 3 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">5</span>
+                        <span class="font-medium">Daahina haath dhoye (kohni tak) - 3 martaba, phir baayaan haath</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">6</span>
+                        <span class="font-medium">Sar ka Masah karein (geele haathon se sar par phero) - 1 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">7</span>
+                        <span class="font-medium">Kaano ka Masah karein (ungli se andar bahar saaf karo) - 1 martaba</span>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <span class="inline-block bg-green-600 text-white rounded-full w-7 h-7 text-center mr-2 font-bold">8</span>
+                        <span class="font-medium">Daahina pair dhoye (takhno tak) - 3 martaba, phir baayaan pair</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Niyat Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center gap-2">
+                    🤲 Niyat (Dil Ka Irada)
+                </h3>
+                <div class="dua-box p-5">
+                    <p class="text-gray-700 mb-3 font-medium">Dil mein irada karein (zuban se bolna zaroori nahi):</p>
+                    <p class="text-green-800 font-semibold text-lg italic">"Main niyat karta/karti hoon [2/3/4] rakat [Farz/Sunnat/Nafl] namaz ki, Allah ke liye, muh mera Kaaba shareef ki taraf."</p>
+                </div>
+            </div>
+
+            <!-- Qibla Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center gap-2">
+                    🕋 Qibla Ki Taraf
+                </h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+                    <p class="text-gray-700 font-medium">Kaaba Shareef (Makkah) ki taraf muh karke khade ho jayein. India mein Qibla Paschim (West) ki taraf hota hai.</p>
+                    <p class="text-sm text-gray-600 mt-2">💡 Tip: Mobile mein "Qibla Finder" app use kar sakte hain.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: 2 RAKAT -->
+        <section id="content-2rakat" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🕌 2 Rakat Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">(Fajr ki Sunnat/Farz, Aur Koi Bhi 2 Rakat Namaz)</p>
+
+            <!-- RAKAT 1 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Pehli Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Takbeer-e-Tahrima (Namaz Shuru)</p>
+                        <p class="text-gray-700">Dono haath kaano tak uthayein aur bolein:</p>
+                        <p class="arabic-text text-green-700 font-semibold mt-2 bg-white p-3 rounded-lg">"Allahu Akbar"</p>
+                        <p class="text-gray-600 text-sm mt-1">Phir haath baandh lein (naaf ke neeche ya seene par).</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Sana Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Subhanaka Allahumma wa bihamdika, wa tabarakasmuka, wa ta'ala jadduka, wa la ilaha ghairuk.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Taawwuz aur Tasmiyah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">A'udhu Billahi Minash Shaitanir Rajeem</p>
+                            <p class="arabic-text text-green-800 mt-2">Bismillahir Rahmanir Raheem</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Surah Ikhlas Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Qul Huwallahu Ahad. Allahus-Samad. Lam Yalid Wa Lam Yoolad. Wa Lam Yakullahu Kufuwan Ahad.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Ruku Mein Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue jhukein. Haath ghutno par rakhein, kamar seedhi.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">Ruku mein 3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">7️⃣ Qauma (Ruku Se Khade Hon)</p>
+                        <p class="text-gray-700">Bolte hue khade hon:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">8️⃣ Pehla Sajda</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue sajde mein jayein. Pehle ghutne, phir haath, phir naak, phir maatha zameen par.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">Sajde mein 3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">9️⃣ Jalsa (Dono Sajdon Ke Beech Baithna)</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue baith jayein. Thoda rukein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">🔟 Doosra Sajda</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue phir sajde mein jayein.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">Sajde mein 3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 2 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Doosri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Khade Ho Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue doosri rakat ke liye khade ho jayein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Bismillah aur Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Surah Kawthar Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Inna A'taina kal Kawthar. Fa Salli Li Rabbika Wanhar. Inna Shani-aka Huwal Abtar.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Ruku Mein Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue jhukein.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Pehle sajde ki tarah - har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL SITTING - QA'DAH AKHIRA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-amber-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Aakhri Baithak (Qa'dah Akhira)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">1️⃣ Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">2️⃣ Durood Shareef Padhein (Poora)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Sallaita 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed. Allahumma Barik 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Barakta 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">3️⃣ Dua Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Inni Zalamtu Nafsi Zulman Katheeran, Wa La Yaghfiruz-Zunooba Illa Anta, Faghfirlee Maghfiratan Min 'Indika Warhamnee Innaka Antal Ghafoorur Raheem.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">4️⃣ Salam Pherein</p>
+                        <p class="text-gray-700">Pehle daayein taraf muh kar ke bolein, phir baayein taraf:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 text-xl">"Assalamu Alaikum Wa Rahmatullah"</p>
+                        </div>
+                        <p class="text-green-600 font-semibold mt-3">✅ Alhamdulillah! Aapki 2 Rakat Namaz Mukammal Hui!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: 3 RAKAT -->
+        <section id="content-3rakat" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🕌 3 Rakat Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">(Maghrib Ki Farz Namaz)</p>
+
+            <!-- RAKAT 1 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Pehli Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Takbeer-e-Tahrima</p>
+                        <p class="text-gray-700">Haath kaano tak uthayein aur bolein:</p>
+                        <p class="arabic-text text-green-700 font-semibold mt-2 bg-white p-3 rounded-lg">"Allahu Akbar"</p>
+                        <p class="text-gray-600 text-sm mt-1">Haath baandh lein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Sana Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Subhanaka Allahumma wa bihamdika, wa tabarakasmuka, wa ta'ala jadduka, wa la ilaha ghairuk.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Taawwuz aur Tasmiyah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">A'udhu Billahi Minash Shaitanir Rajeem</p>
+                            <p class="arabic-text text-green-800 mt-2">Bismillahir Rahmanir Raheem</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Surah Ikhlas Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Qul Huwallahu Ahad. Allahus-Samad. Lam Yalid Wa Lam Yoolad. Wa Lam Yakullahu Kufuwan Ahad.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Ruku Mein Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue jhukein.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">7️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">8️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba padhein:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">Dono sajdon ke beech "Allahu Akbar" bol kar baith jayein.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 2 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Doosri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Khade Ho Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue khade ho jayein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Bismillah aur Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Surah Kawthar Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Inna A'taina kal Kawthar. Fa Salli Li Rabbika Wanhar. Inna Shani-aka Huwal Abtar.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Ruku Mein Jayein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIRST SITTING (QA'DAH OOLA) -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-orange-500 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Pehli Baithak (Qa'dah Oola) - Doosri Rakat Ke Baad</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                        <p class="font-bold text-orange-800 mb-2">Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <!-- WARNING BOX -->
+                    <div class="warning-box p-5">
+                        <p class="text-red-700 font-bold text-lg flex items-center gap-2">
+                            ⚠️ ZAROOR YAAD RAKHEIN:
+                        </p>
+                        <p class="text-red-600 font-semibold text-lg mt-2">❌ SALAM NAHI PHERNA!</p>
+                        <p class="text-red-600 mt-2">"Allahu Akbar" bolte hue 3rd Rakat ke liye khade ho jayein.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 3 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Teesri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Bismillah aur SIRF Surah Fatiha Padhein (Poori)</p>
+                        <div class="bg-yellow-100 border border-yellow-400 p-3 rounded-lg mb-3">
+                            <p class="text-yellow-800 font-semibold">⚠️ Koi Surah NAHI milani - SIRF Fatiha padhni hai!</p>
+                        </div>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Ruku Mein Jayein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL SITTING - QA'DAH AKHIRA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-amber-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Aakhri Baithak (Qa'dah Akhira)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">1️⃣ Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">2️⃣ Durood Shareef Padhein (Poora)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Sallaita 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed. Allahumma Barik 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Barakta 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">3️⃣ Dua Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Inni Zalamtu Nafsi Zulman Katheeran, Wa La Yaghfiruz-Zunooba Illa Anta, Faghfirlee Maghfiratan Min 'Indika Warhamnee Innaka Antal Ghafoorur Raheem.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">4️⃣ Salam Pherein</p>
+                        <p class="text-gray-700">Pehle daayein taraf, phir baayein taraf:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 text-xl">"Assalamu Alaikum Wa Rahmatullah"</p>
+                        </div>
+                        <p class="text-green-600 font-semibold mt-3">✅ Alhamdulillah! Aapki 3 Rakat Namaz Mukammal Hui!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: 4 RAKAT -->
+        <section id="content-4rakat" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🕌 4 Rakat Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">(Zuhr, Asr, Isha Ki Farz Namaz)</p>
+
+            <!-- RAKAT 1 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Pehli Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Takbeer-e-Tahrima</p>
+                        <p class="text-gray-700">Haath kaano tak uthayein aur bolein:</p>
+                        <p class="arabic-text text-green-700 font-semibold mt-2 bg-white p-3 rounded-lg">"Allahu Akbar"</p>
+                        <p class="text-gray-600 text-sm mt-1">Haath baandh lein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Sana Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Subhanaka Allahumma wa bihamdika, wa tabarakasmuka, wa ta'ala jadduka, wa la ilaha ghairuk.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Taawwuz aur Tasmiyah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">A'udhu Billahi Minash Shaitanir Rajeem</p>
+                            <p class="arabic-text text-green-800 mt-2">Bismillahir Rahmanir Raheem</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Surah Ikhlas Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Qul Huwallahu Ahad. Allahus-Samad. Lam Yalid Wa Lam Yoolad. Wa Lam Yakullahu Kufuwan Ahad.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Ruku Mein Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue jhukein.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">7️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">8️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-2">Dono sajdon ke beech thoda baith jayein.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 2 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Doosri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Khade Ho Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue khade ho jayein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Bismillah aur Surah Fatiha Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Surah Kawthar Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Inna A'taina kal Kawthar. Fa Salli Li Rabbika Wanhar. Inna Shani-aka Huwal Abtar.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Ruku Mein Jayein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIRST SITTING (QA'DAH OOLA) -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-orange-500 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Pehli Baithak (Qa'dah Oola) - Doosri Rakat Ke Baad</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                        <p class="font-bold text-orange-800 mb-2">Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <!-- WARNING BOX -->
+                    <div class="warning-box p-5">
+                        <p class="text-red-700 font-bold text-lg flex items-center gap-2">
+                            ⚠️ ZAROOR YAAD RAKHEIN:
+                        </p>
+                        <p class="text-red-600 font-semibold text-lg mt-2">❌ SALAM NAHI PHERNA!</p>
+                        <p class="text-red-600 mt-2">"Allahu Akbar" bolte hue 3rd Rakat ke liye khade ho jayein.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 3 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Teesri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Bismillah aur SIRF Surah Fatiha Padhein (Poori)</p>
+                        <div class="bg-yellow-100 border border-yellow-400 p-3 rounded-lg mb-3">
+                            <p class="text-yellow-800 font-semibold">⚠️ Koi Surah NAHI milani - SIRF Fatiha padhni hai!</p>
+                        </div>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Ruku Mein Jayein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 4 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Chauthi Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Khade Ho Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue khade ho jayein.</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Bismillah aur SIRF Surah Fatiha Padhein (Poori)</p>
+                        <div class="bg-yellow-100 border border-yellow-400 p-3 rounded-lg mb-3">
+                            <p class="text-yellow-800 font-semibold">⚠️ Koi Surah NAHI milani - SIRF Fatiha padhni hai!</p>
+                        </div>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Ruku Mein Jayein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">3 martaba padhein:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Qauma (Khade Hon)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Dono Sajde Karein</p>
+                        <p class="text-gray-700">Har sajde mein 3 martaba:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL SITTING - QA'DAH AKHIRA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-amber-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Aakhri Baithak (Qa'dah Akhira)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">1️⃣ Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">2️⃣ Durood Shareef Padhein (Poora)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Sallaita 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed. Allahumma Barik 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Barakta 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">3️⃣ Dua Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Inni Zalamtu Nafsi Zulman Katheeran, Wa La Yaghfiruz-Zunooba Illa Anta, Faghfirlee Maghfiratan Min 'Indika Warhamnee Innaka Antal Ghafoorur Raheem.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">4️⃣ Salam Pherein</p>
+                        <p class="text-gray-700">Pehle daayein taraf, phir baayein taraf:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 text-xl">"Assalamu Alaikum Wa Rahmatullah"</p>
+                        </div>
+                        <p class="text-green-600 font-semibold mt-3">✅ Alhamdulillah! Aapki 4 Rakat Namaz Mukammal Hui!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: JUMAH -->
+        <section id="content-jumah" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🕋 Jumah Ki Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">(Jumu'ah - Har Jumme Zuhr Ki Jagah)</p>
+
+            <!-- WARNING CARD -->
+            <div class="warning-box p-6 mb-6">
+                <p class="text-red-700 font-bold text-xl flex items-center gap-2 mb-3">
+                    ⚠️ ZAROORI BAAT:
+                </p>
+                <p class="text-red-600 font-semibold text-lg">Jumah ki namaz SIRF Masjid mein Imam ke peeche Jamat ke saath hoti hai.</p>
+                <p class="text-red-600 mt-2">Akele ghar mein Jumah ki namaz NAHI ho sakti. Agar masjid nahi ja sakte, toh 4 rakat Zuhr padhein.</p>
+            </div>
+
+            <!-- JUMAH FULL SEQUENCE OVERVIEW -->
+            <div class="bg-green-800 rounded-2xl p-5 mb-6">
+                <p class="font-bold text-white text-xl text-center mb-4">📋 Jumah Ka Poora Sequence — Ek Nazar Mein</p>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                        <span class="bg-blue-600 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-lg">1</span>
+                        <div><p class="font-bold text-gray-900">4 Rakat Sunnat Muakkadah</p><p class="text-gray-600 text-sm">Masjid pahunchte hi — Khutba se PEHLE padho</p></div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                        <span class="bg-purple-600 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-lg">2</span>
+                        <div><p class="font-bold text-gray-900">📢 Khutba — Chup Reh Kar Suno</p><p class="text-gray-600 text-sm">Imam ka bayan — bilkul khamosh rehna zaroori hai</p></div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                        <span class="bg-red-600 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-lg">3</span>
+                        <div><p class="font-bold text-gray-900">2 Rakat FARZ — Imam Ke Peeche ✅</p><p class="text-gray-600 text-sm">Yeh Jumah ki farz namaz hai — zaroori</p></div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                        <span class="bg-blue-600 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-lg">4</span>
+                        <div><p class="font-bold text-gray-900">4 Rakat Sunnat Muakkadah</p><p class="text-gray-600 text-sm">Farz ke foran baad — bahut zaroori hai</p></div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white rounded-xl p-3">
+                        <span class="bg-teal-600 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-lg">5</span>
+                        <div><p class="font-bold text-gray-900">2 Rakat Sunnat — Optional ✨</p><p class="text-gray-600 text-sm">Padh sakte ho extra sawab ke liye</p></div>
+                    </div>
+                </div>
+                <div class="mt-4 bg-yellow-400 p-3 rounded-xl text-center">
+                    <p class="font-bold text-gray-900 text-lg">✅ Jumah Total: 4 + 2 + 4 + 2 = <span class="text-2xl text-green-900">10-12 Rakat</span></p>
+                </div>
+            </div>
+
+            <!-- STEP 1: 4 SUNNAT BEFORE -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-blue-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔵 STEP 1 — 4 Rakat Sunnat Muakkadah (Khutba Se PEHLE)</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <p class="text-blue-800 font-bold">⏰ Kab padhe?</p>
+                        <p class="text-gray-700 mt-1">Jab masjid pahuncho — Khutba shuru hone se PEHLE. Agar Khutba shuru ho gayi toh yeh nahi padhni — seedha baith jao.</p>
+                    </div>
+                    <div class="step-card bg-blue-50 p-4 rounded-lg">
+                        <p class="font-bold text-blue-800 mb-2">📌 Niyat:</p>
+                        <div class="dua-box p-3 mt-1">
+                            <p class="text-green-800 italic">"Main niyat karta/karti hoon 4 Rakat Sunnat Muakkadah Jumah ki, Allah ke liye, muh mera Qibla ki taraf."</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-blue-50 p-4 rounded-lg">
+                        <p class="font-bold text-blue-800 mb-2">📖 Kaise Padhe?</p>
+                        <p class="text-gray-700">Bilkul same jaise 4 Rakat padhi jaati hai — Fatiha + Surah pehli 2 rakat mein, teesri aur chauthi mein sirf Fatiha.</p>
+                        <a href="#" onclick="showTab('4rakat'); return false;" class="inline-block mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700">→ 4 Rakat Tab Dekho</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: KHUTBA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-purple-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🟣 STEP 2 — 📢 Khutba (Imam Ka Bayan)</h3>
+                </div>
+                <div class="p-6">
+                    <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="text-purple-800 font-medium mb-3">Imam Sahab Khutba (Bayan) dete hain. Is dauraan:</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">❌</span><p class="text-gray-700">Kisi se bilkul baat mat karo — ek lafz bhi nahi</p></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">❌</span><p class="text-gray-700">Mobile use mat karo — airplane mode par rakho</p></div>
+                            <div class="flex items-center gap-2"><span class="text-red-500 font-bold">❌</span><p class="text-gray-700">Namaz mat padho — Khutba ke dauraan sunnat bhi nahi</p></div>
+                            <div class="flex items-center gap-2"><span class="text-green-600 font-bold">✅</span><p class="text-gray-700">Dhyan se Imam ka Khutba suno</p></div>
+                            <div class="flex items-center gap-2"><span class="text-green-600 font-bold">✅</span><p class="text-gray-700">Darood padhte raho dil mein (awaaz nahi)</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-red-100 border-2 border-red-400 rounded-xl p-4 mt-4 text-center">
+                        <p class="text-red-700 font-bold text-xl">🤫 KHAMOSH — Khutba Sunna FARZ HAI!</p>
+                        <p class="text-red-600 mt-1">Khutba ke dauraan baat karna namaz ka sawab khatam kar deta hai</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 1 - STEP 3 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-red-700 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔴 STEP 3 — 2 Rakat FARZ (Imam Ke Peeche) ✅</h3>
+                    <p class="text-red-200 text-sm mt-1">Pehli Rakat</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Niyat Karein</p>
+                        <p class="text-gray-700 italic">"Main niyat karta hoon 2 rakat Jumah ki Farz namaz, Imam ke peeche, Allah ke liye."</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Takbeer-e-Tahrima</p>
+                        <p class="text-gray-700">Imam ke saath haath uthayein:</p>
+                        <p class="arabic-text text-green-700 font-semibold mt-2 bg-white p-3 rounded-lg">"Allahu Akbar"</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Sana Padhein (Dheere Se)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Subhanaka Allahumma wa bihamdika, wa tabarakasmuka, wa ta'ala jadduka, wa la ilaha ghairuk.</p>
+                        </div>
+                    </div>
+
+                    <!-- KHAMOSH WARNING -->
+                    <div class="bg-red-100 border-4 border-red-500 rounded-xl p-6 text-center">
+                        <p class="text-red-700 font-bold text-2xl mb-2">🤫 KHAMOSH RAHEIN</p>
+                        <p class="text-red-600 text-lg font-semibold">Imam Ko Sunein - Kuch NAHI Padhna!</p>
+                        <p class="text-red-500 mt-2">Na Fatiha, Na Koi Surah - Sirf Chup Chaap Sunein</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Ruku (Imam Ke Saath)</p>
+                        <p class="text-gray-700">Jab Imam "Allahu Akbar" bole, Ruku mein jayein.</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm">Dheere se 3 martaba:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Qauma (Imam Ke Saath)</p>
+                        <p class="text-gray-700">Imam "Sami Allahu Liman Hamidah" bole toh khade hon aur bolein:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Dono Sajde (Imam Ke Saath)</p>
+                        <p class="text-gray-700">Imam ke saath sajda karein. Har sajde mein dheere se:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 2 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Doosri Rakat (Imam Ke Peeche)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Imam Ke Saath Khade Hon</p>
+                        <p class="text-gray-700">Imam "Allahu Akbar" bole toh khade ho jayein.</p>
+                    </div>
+
+                    <!-- KHAMOSH WARNING -->
+                    <div class="bg-red-100 border-4 border-red-500 rounded-xl p-6 text-center">
+                        <p class="text-red-700 font-bold text-2xl mb-2">🤫 KHAMOSH RAHEIN</p>
+                        <p class="text-red-600 text-lg font-semibold">Imam Ko Sunein - Kuch NAHI Padhna!</p>
+                        <p class="text-red-500 mt-2">Sirf Chup Chaap Imam Ki Tilawat Sunein</p>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Ruku (Imam Ke Saath)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Qauma</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Dono Sajde (Imam Ke Saath)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL SITTING -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-amber-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Aakhri Baithak (Qa'dah Akhira)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-gray-700 mb-4">Imam ke saath baith jayein aur dheere se yeh padhein:</p>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">1️⃣ Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">2️⃣ Durood Shareef Padhein (Poora)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Sallaita 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed. Allahumma Barik 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Barakta 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">3️⃣ Dua Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Inni Zalamtu Nafsi Zulman Katheeran, Wa La Yaghfiruz-Zunooba Illa Anta, Faghfirlee Maghfiratan Min 'Indika Warhamnee Innaka Antal Ghafoorur Raheem.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">4️⃣ Salam (Imam Ke Saath)</p>
+                        <p class="text-gray-700">Imam ke saath salam pherein - pehle daayein, phir baayein:</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 text-xl">"Assalamu Alaikum Wa Rahmatullah"</p>
+                        </div>
+                        <p class="text-green-600 font-semibold mt-3">✅ Alhamdulillah! Aapki Jumah Ki Namaz Mukammal Hui!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AFTER JUMAH — 4 SUNNAT -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-blue-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔵 STEP 4 — 4 Rakat Sunnat Muakkadah (Farz Ke BAAD)</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <p class="text-blue-800 font-bold">⏰ Kab padhe?</p>
+                        <p class="text-gray-700 mt-1">Imam ke salam ke FORAN baad — jagah se uthne se pehle hi padh lo. Yeh Sunnat Muakkadah hai — zaroori hai.</p>
+                    </div>
+                    <div class="step-card bg-blue-50 p-4 rounded-lg">
+                        <p class="font-bold text-blue-800 mb-2">📌 Niyat:</p>
+                        <div class="dua-box p-3 mt-1">
+                            <p class="text-green-800 italic">"Main niyat karta/karti hoon 4 Rakat Sunnat Muakkadah Ba'ad Jumah, Allah ke liye, muh mera Qibla ki taraf."</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-blue-50 p-4 rounded-lg">
+                        <p class="font-bold text-blue-800">📖 Kaise Padhe?</p>
+                        <p class="text-gray-700 mt-1">Same 4 Rakat method — Fatiha + Surah pehli 2 mein, sirf Fatiha aakhri 2 mein.</p>
+                        <a href="#" onclick="showTab('4rakat'); return false;" class="inline-block mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700">→ 4 Rakat Tab Dekho</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AFTER JUMAH — 2 SUNNAT OPTIONAL -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-teal-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🟢 STEP 5 — 2 Rakat Sunnat (Optional)</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                        <p class="text-teal-800 font-bold">ℹ️ Yeh Optional hai:</p>
+                        <p class="text-gray-700 mt-1">4 Sunnat ke baad 2 aur Sunnat padh sakte ho — yeh Sunnat Ghair Muakkadah hai. Padho toh sawab, na padho toh gunah nahi.</p>
+                    </div>
+                    <div class="step-card bg-teal-50 p-4 rounded-lg">
+                        <p class="font-bold text-teal-800 mb-2">📌 Niyat:</p>
+                        <div class="dua-box p-3 mt-1">
+                            <p class="text-green-800 italic">"Main niyat karta/karti hoon 2 Rakat Sunnat Ba'ad Jumah, Allah ke liye, muh mera Qibla ki taraf."</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-teal-50 p-4 rounded-lg">
+                        <p class="font-bold text-teal-800">📖 Kaise Padhe?</p>
+                        <p class="text-gray-700 mt-1">Same 2 Rakat method follow karo.</p>
+                        <a href="#" onclick="showTab('2rakat'); return false;" class="inline-block mt-2 bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-teal-700">→ 2 Rakat Tab Dekho</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AFTER JUMAH DUAS -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4">🤲 Jumah Ke Baad Yeh Bhi Karo</h3>
+                <div class="space-y-3">
+                    <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-500">
+                        <p class="font-bold text-green-800">📖 Surah Kahf padho</p>
+                        <p class="text-gray-600 text-sm mt-1">Jumah ke din Surah Kahf padhne ka bahut sawab hai — Nabi ﷺ ne farmaya isko padhne wale ke liye do Jumon ke beech noor hoga.</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-500">
+                        <p class="font-bold text-green-800">🤲 Dua maango</p>
+                        <p class="text-gray-600 text-sm mt-1">Jumah ke din mein ek aisa waqt hai jab dua zaroor qubool hoti hai — Asr ke baad se Maghrib tak khoob dua maango.</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-500">
+                        <p class="font-bold text-green-800">💚 Durood Shareef padhte raho</p>
+                        <p class="text-gray-600 text-sm mt-1">Jumah ke din bahut zyada Durood padhna chahiye — yeh bahut afzal amal hai.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JUMAH FINAL SUMMARY -->
+            <div class="bg-green-800 rounded-2xl p-5">
+                <p class="font-bold text-white text-xl text-center mb-3">✅ Jumah Final Summary</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead><tr class="bg-green-700"><th class="p-2 text-left">Step</th><th class="p-2 text-center">Rakat</th><th class="p-2 text-center">Type</th><th class="p-2 text-center">Hukm</th></tr></thead>
+                        <tbody>
+                            <tr class="border-b border-white border-opacity-20"><td class="p-2">4 Sunnat (Khutba se Pehle)</td><td class="p-2 text-center font-bold">4</td><td class="p-2 text-center">Sunnat Muakkadah</td><td class="p-2 text-center text-yellow-300">Zaroori ⭐</td></tr>
+                            <tr class="border-b border-white border-opacity-20"><td class="p-2">Khutba Suno</td><td class="p-2 text-center">—</td><td class="p-2 text-center">Farz</td><td class="p-2 text-center text-red-300">Must ✅</td></tr>
+                            <tr class="border-b border-white border-opacity-20"><td class="p-2">2 Rakat Farz</td><td class="p-2 text-center font-bold">2</td><td class="p-2 text-center">FARZ</td><td class="p-2 text-center text-red-300">Must ✅</td></tr>
+                            <tr class="border-b border-white border-opacity-20"><td class="p-2">4 Sunnat (Farz Ke Baad)</td><td class="p-2 text-center font-bold">4</td><td class="p-2 text-center">Sunnat Muakkadah</td><td class="p-2 text-center text-yellow-300">Zaroori ⭐</td></tr>
+                            <tr><td class="p-2">2 Sunnat (Optional)</td><td class="p-2 text-center font-bold">2</td><td class="p-2 text-center">Sunnat G.M.</td><td class="p-2 text-center text-green-300">Optional ✨</td></tr>
+                        </tbody>
+                        <tfoot><tr class="bg-green-700 font-bold"><td class="p-2">TOTAL</td><td class="p-2 text-center text-yellow-300 text-lg">10-12</td><td class="p-2 text-center" colspan="2">Rakaat</td></tr></tfoot>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========== TAB: NAMAZ TYPES ========== -->
+        <section id="content-types" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">📚 Namaz Ke Types</h2>
+            <p class="text-center text-gray-600 mb-6">Farz, Sunnat, Nafl, Witr — Sab Kuch Samjho</p>
+
+            <!-- FARZ -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-red-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔴 1. FARZ NAMAZ — Bilkul Zaroori</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <p class="font-bold text-red-800 text-lg">⚠️ Farz = MUST karna hai!</p>
+                        <p class="text-red-700 mt-1">Isko chhorna KABHI jaiz nahi. Bina wajah chhoda = Gunaah-e-Kabeera ❌</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-3">📌 Roz Paanch Waqt Ki Farz Namaz:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white p-3 rounded-lg border border-green-200">🌅 <strong>Fajr</strong> — 2 Rakat Farz</div>
+                            <div class="bg-white p-3 rounded-lg border border-green-200">☀️ <strong>Zuhr</strong> — 4 Rakat Farz</div>
+                            <div class="bg-white p-3 rounded-lg border border-green-200">🌇 <strong>Asr</strong> — 4 Rakat Farz</div>
+                            <div class="bg-white p-3 rounded-lg border border-green-200">🌆 <strong>Maghrib</strong> — 3 Rakat Farz</div>
+                            <div class="bg-white p-3 rounded-lg border border-green-200">🌙 <strong>Isha</strong> — 4 Rakat Farz</div>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">🕌 Farz Namaz 2 Tarah Hoti Hai:</p>
+                        <div class="space-y-2">
+                            <div class="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-500">
+                                <p class="font-bold text-blue-800">1. Farz-e-Ain</p>
+                                <p class="text-gray-700">Har Muslim par zaroori — jaise 5 waqt ki namaz. Isko koi doosra aapki taraf se nahi padh sakta.</p>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-lg border-l-4 border-purple-500">
+                                <p class="font-bold text-purple-800">2. Farz-e-Kifaya</p>
+                                <p class="text-gray-700">Agar kuch log padh lein toh sab ke zimme se utar jaata hai — jaise Janaza ki namaz.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">✅ Farz Kaise Padhe — Short Summary:</p>
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <p class="text-gray-800">👉 <strong>Fajr (2 Rakat):</strong> <a href="#" onclick="showTab('2rakat'); return false;" class="text-green-700 underline font-bold">2 Rakat Tab dekho</a></p>
+                            <p class="text-gray-800 mt-2">👉 <strong>Zuhr/Asr/Isha (4 Rakat):</strong> <a href="#" onclick="showTab('4rakat'); return false;" class="text-green-700 underline font-bold">4 Rakat Tab dekho</a></p>
+                            <p class="text-gray-800 mt-2">👉 <strong>Maghrib (3 Rakat):</strong> <a href="#" onclick="showTab('3rakat'); return false;" class="text-green-700 underline font-bold">3 Rakat Tab dekho</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUNNAT -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-blue-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔵 2. SUNNAT NAMAZ — Nabi ﷺ Ka Tareeqa</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <p class="text-blue-800 font-semibold">Sunnat = Nabi Muhammad ﷺ ne jo kiya aur padha, woh amal karna</p>
+                        <p class="text-blue-700 mt-1">Sunnat padhne se bahut sawab milta hai. Chhorna gunah nahi (Muakkadah chhoda toh makrooh hai)</p>
+                    </div>
+
+                    <!-- MUAKKADAH EXPLANATION BOX - BEGINNER -->
+                    <div class="bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-5">
+                        <p class="font-bold text-yellow-900 text-xl mb-4">🤔 "Muakkadah" Kya Hota Hai? — Simple Explanation</p>
+
+                        <!-- Simple analogy -->
+                        <div class="bg-white rounded-xl p-4 mb-4 border border-yellow-300">
+                            <p class="font-bold text-gray-800 mb-2">📱 Ek Simple Example Se Samjho:</p>
+                            <p class="text-gray-700">Socho tere boss ne kaha:<br>
+                            <strong class="text-red-700">"Kaam pe aana zaroori hai"</strong> — yeh FARZ hai<br>
+                            <strong class="text-orange-700">"Thoda jaldi aao toh achha hai"</strong> — yeh MUAKKADAH hai<br>
+                            <strong class="text-blue-700">"Aur jaldi aao toh bhi theek hai"</strong> — yeh GHAIR MUAKKADAH hai<br>
+                            <strong class="text-teal-700">"Extra kaam karo toh bonus milega"</strong> — yeh NAFL hai</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Muakkadah -->
+                            <div class="bg-orange-50 border-2 border-orange-400 rounded-xl p-4">
+                                <p class="font-bold text-orange-800 text-lg mb-2">⭐ MUAKKADAH</p>
+                                <p class="text-gray-500 text-xs mb-2 italic">"Mu-ak-ka-dah" = Pakka / Confirmed</p>
+                                <div class="space-y-2 text-gray-700 text-sm">
+                                    <p>✅ <strong>Matlab:</strong> Nabi ﷺ ne yeh sunnat HAMESHA padhi — kabhi nahi chhoodi</p>
+                                    <p>⚠️ <strong>Chhoda toh:</strong> Makrooh (bura) — gunah hoga</p>
+                                    <p>🎁 <strong>Padha toh:</strong> Bahut bada sawab milega</p>
+                                    <p>📌 <strong>Simple rule:</strong> Isko chhodo mat — Farz ke saath saath yeh bhi zaroori hai</p>
+                                </div>
+                            </div>
+                            <!-- Ghair Muakkadah -->
+                            <div class="bg-indigo-50 border-2 border-indigo-400 rounded-xl p-4">
+                                <p class="font-bold text-indigo-800 text-lg mb-2">🔹 GHAIR MUAKKADAH</p>
+                                <p class="text-gray-500 text-xs mb-2 italic">"Ghair" = Nahi / "Pakka" = Confirmed</p>
+                                <div class="space-y-2 text-gray-700 text-sm">
+                                    <p>✅ <strong>Matlab:</strong> Nabi ﷺ ne kabhi kabhi padhi, kabhi nahi padhi</p>
+                                    <p>😌 <strong>Chhoda toh:</strong> Koi gunah nahi bilkul</p>
+                                    <p>🎁 <strong>Padha toh:</strong> Sawab milega</p>
+                                    <p>📌 <strong>Simple rule:</strong> Padh sako toh padho — extra sawab milega</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-100 border border-green-400 rounded-xl p-4 mt-4">
+                            <p class="font-bold text-green-800 mb-2">💡 Beginner Ke Liye Simple Rule:</p>
+                            <p class="text-gray-700">🔴 <strong>Farz</strong> = Bilkul zaroori — kabhi mat chhoodo<br>
+                            🟠 <strong>Sunnat Muakkadah</strong> = Almost zaroori — koshish karo hamesha padho<br>
+                            🔵 <strong>Sunnat Ghair Muakkadah</strong> = Optional — waqt ho toh padho<br>
+                            ⚪ <strong>Nafl</strong> = Extra — jab chaaho padho</p>
+                        </div>
+                    </div>
+
+                    <!-- Sunnat Muakkadah LIST -->
+                    <div class="step-card bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600">
+                        <p class="font-bold text-blue-800 text-lg mb-2">⭐ Sunnat Muakkadah — Kab Kitni?</p>
+                        <p class="text-gray-700 mb-3">Nabi ﷺ ne in sunnaton ko hamesha padha aur kabhi nahi chhooda. Inhe chhorna makrooh (bura) hai.</p>
+                        <div class="space-y-2">
+                            <div class="bg-white p-3 rounded-lg border border-blue-200">🌅 <strong>Fajr se pehle:</strong> 2 Rakat Sunnat Muakkadah</div>
+                            <div class="bg-white p-3 rounded-lg border border-blue-200">☀️ <strong>Zuhr se pehle:</strong> 4 Rakat Sunnat Muakkadah</div>
+                            <div class="bg-white p-3 rounded-lg border border-blue-200">☀️ <strong>Zuhr ke baad:</strong> 2 Rakat Sunnat Muakkadah</div>
+                            <div class="bg-white p-3 rounded-lg border border-blue-200">🌆 <strong>Maghrib ke baad:</strong> 2 Rakat Sunnat Muakkadah</div>
+                            <div class="bg-white p-3 rounded-lg border border-blue-200">🌙 <strong>Isha ke baad:</strong> 2 Rakat Sunnat Muakkadah</div>
+                        </div>
+                    </div>
+
+                    <!-- Sunnat Ghair Muakkadah -->
+                    <div class="step-card bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500">
+                        <p class="font-bold text-indigo-800 text-lg mb-2">🔹 Sunnat Ghair Muakkadah — Optional</p>
+                        <p class="text-gray-700 mb-3">Nabi ﷺ ne kabhi kabhi padhi, kabhi kabhi nahi. Padho toh sawab, na padho toh koi gunah nahi.</p>
+                        <div class="space-y-2">
+                            <div class="bg-white p-3 rounded-lg border border-indigo-200">🌇 <strong>Asr se pehle:</strong> 4 Rakat Sunnat Ghair Muakkadah</div>
+                            <div class="bg-white p-3 rounded-lg border border-indigo-200">🌙 <strong>Isha se pehle:</strong> 4 Rakat Sunnat Ghair Muakkadah</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-400 p-4 rounded-lg">
+                        <p class="font-bold text-yellow-800">💡 Sunnat Kaise Padhe?</p>
+                        <p class="text-gray-700 mt-1">Sunnat ki rakat count ke hisaab se same tab use karo:<br>
+                        👉 2 Rakat Sunnat = <a href="#" onclick="showTab('2rakat'); return false;" class="text-green-700 underline font-bold">2 Rakat Tab</a><br>
+                        👉 4 Rakat Sunnat = <a href="#" onclick="showTab('4rakat'); return false;" class="text-green-700 underline font-bold">4 Rakat Tab</a><br>
+                        Sirf <strong>Niyat mein "Sunnat" bolo</strong> (Farz ki jagah)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAFL -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-teal-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">⚪ 3. NAFL NAMAZ — Extra Ibadat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                        <p class="text-teal-800 font-semibold">Nafl = Bilkul Optional. Padho toh bahut sawab, na padho toh koi baat nahi.</p>
+                        <p class="text-teal-700 mt-1">Yeh Extra ibadaat hai jo Allah ke qurb ke liye padhi jaati hai.</p>
+                    </div>
+                    <div class="step-card bg-teal-50 p-4 rounded-lg">
+                        <p class="font-bold text-teal-800 mb-3">📌 Mashhoor Nafl Namazein:</p>
+                        <div class="space-y-3">
+                            <div class="bg-white p-3 rounded-lg border border-teal-200">
+                                <p class="font-bold">🌙 Tahajjud</p>
+                                <p class="text-gray-600 text-sm">Raat ke aakhri hisse mein — 2 se 12 rakat tak. Bahut afzal namaz!</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-teal-200">
+                                <p class="font-bold">🌅 Ishraaq</p>
+                                <p class="text-gray-600 text-sm">Suraj nikalne ke 15-20 minute baad — 2 rakat. Hajj ke sawab ke barabar!</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-teal-200">
+                                <p class="font-bold">☀️ Chasht (Duha)</p>
+                                <p class="text-gray-600 text-sm">Dupahar se pehle — 2 se 8 rakat. Roz ke sadaqe ke barabar sawab.</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-teal-200">
+                                <p class="font-bold">🕌 Tahiyyatul Masjid</p>
+                                <p class="text-gray-600 text-sm">Masjid mein daakhil hone par — 2 rakat. Baithne se pehle padho.</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-teal-200">
+                                <p class="font-bold">💧 Tahiyyatul Wuzu</p>
+                                <p class="text-gray-600 text-sm">Wuzu karne ke baad — 2 rakat. Sawab bahut zyada hai.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-400 p-4 rounded-lg">
+                        <p class="font-bold text-yellow-800">💡 Nafl Kaise Padhe?</p>
+                        <p class="text-gray-700 mt-1">Same method — 2 ya 4 rakat. Niyat mein "Nafl" bolo. Niyat karte waqt koi specific Nafl ka naam bhi le sakte hain jaise "Tahajjud" ya "Ishraaq".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WITR -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-purple-700 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">⭐ 4. WITR NAMAZ — Special &amp; Important</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                        <p class="text-purple-800 font-semibold">Witr = Isha ki namaz ke baad padhi jaati hai. Yeh Wajib hai (Sunnat se zyada, Farz se thodi kam).</p>
+                        <p class="text-purple-700 mt-1">Isko bilkul mat chhoodo! Nabi ﷺ ne kabhi Witr nahi chhooda — safar mein bhi padha.</p>
+                    </div>
+                    <div class="step-card bg-purple-50 p-4 rounded-lg">
+                        <p class="font-bold text-purple-800 mb-2">📌 Witr Ki Details:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="bg-white p-3 rounded-lg border border-purple-200 text-center">
+                                <p class="font-bold text-purple-800">Rakat</p>
+                                <p class="text-2xl font-bold text-green-700">3</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-purple-200 text-center">
+                                <p class="font-bold text-purple-800">Waqt</p>
+                                <p class="text-gray-700 font-semibold">Isha Ke Baad</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-purple-200 text-center">
+                                <p class="font-bold text-purple-800">Hukm</p>
+                                <p class="text-orange-700 font-semibold">Wajib</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-400 p-4 rounded-lg">
+                        <p class="font-bold text-yellow-800">👉 Witr Ka Poora Tareeqa:</p>
+                        <p class="text-gray-700 mt-1">Witr Namaz tab dekho — <a href="#" onclick="showTab('witr'); return false;" class="text-purple-700 underline font-bold">🌙 Witr Tab Click Karo</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPARISON TABLE -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 p-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4">📊 Quick Comparison — Sab Ek Nazar Mein</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-green-700 text-white">
+                                <th class="p-3 text-left rounded-tl-lg">Type</th>
+                                <th class="p-3 text-left">Hukm</th>
+                                <th class="p-3 text-left">Chhora Toh</th>
+                                <th class="p-3 text-left rounded-tr-lg">Sawab</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-red-50 border-b">
+                                <td class="p-3 font-bold text-red-700">🔴 Farz</td>
+                                <td class="p-3">Compulsory</td>
+                                <td class="p-3 text-red-600 font-semibold">Gunaah-e-Kabeera ❌</td>
+                                <td class="p-3 text-green-700">Bahut zyada ✅</td>
+                            </tr>
+                            <tr class="bg-orange-50 border-b">
+                                <td class="p-3 font-bold text-orange-700">⭐ Witr</td>
+                                <td class="p-3">Wajib</td>
+                                <td class="p-3 text-orange-600 font-semibold">Gunah / Makrooh ⚠️</td>
+                                <td class="p-3 text-green-700">Bahut zyada ✅</td>
+                            </tr>
+                            <tr class="bg-blue-50 border-b">
+                                <td class="p-3 font-bold text-blue-700">🔵 Sunnat Muakkadah</td>
+                                <td class="p-3">Strongly Recommended</td>
+                                <td class="p-3 text-orange-500">Makrooh ⚠️</td>
+                                <td class="p-3 text-green-700">Bahut zyada ✅</td>
+                            </tr>
+                            <tr class="bg-indigo-50 border-b">
+                                <td class="p-3 font-bold text-indigo-700">🔹 Sunnat G. Muakkadah</td>
+                                <td class="p-3">Optional (Recommended)</td>
+                                <td class="p-3 text-gray-500">Kuch nahi 👍</td>
+                                <td class="p-3 text-green-700">Achha sawab ✅</td>
+                            </tr>
+                            <tr class="bg-teal-50">
+                                <td class="p-3 font-bold text-teal-700">⚪ Nafl</td>
+                                <td class="p-3">Fully Optional</td>
+                                <td class="p-3 text-gray-500">Kuch nahi 👍</td>
+                                <td class="p-3 text-green-700">Sawab milta hai ✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: ROZ KI NAMAZ ========== -->
+        <section id="content-rozki" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🗓️ Roz Ki Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">Paanch Waqt Ka Poora Daily Schedule — Fajr Se Isha Tak</p>
+
+            <!-- INFO BOX -->
+            <div class="dua-box p-5 mb-6">
+                <p class="text-green-800 font-bold text-lg text-center mb-2">📌 Total Daily Rakaat Count</p>
+                <div class="grid grid-cols-3 md:grid-cols-5 gap-3 text-center">
+                    <div class="bg-white p-2 rounded-lg border border-green-300">
+                        <p class="text-xs text-gray-600">Farz</p>
+                        <p class="text-2xl font-bold text-red-600">17</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-green-300">
+                        <p class="text-xs text-gray-600">Witr</p>
+                        <p class="text-2xl font-bold text-purple-600">3</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-green-300">
+                        <p class="text-xs text-gray-600">Sunnat M.</p>
+                        <p class="text-2xl font-bold text-blue-600">12</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-green-300">
+                        <p class="text-xs text-gray-600">Sunnat G.M.</p>
+                        <p class="text-2xl font-bold text-indigo-600">8</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-green-300">
+                        <p class="text-xs text-gray-600">Total (Max)</p>
+                        <p class="text-2xl font-bold text-green-700">40</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAJR -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">🌅 FAJR — Subah Ki Namaz</h3>
+                    <p class="text-gray-900 text-sm mt-1">Waqt: Subah Saadiq se Suraj Nikalne Tak</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <div class="bg-blue-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-blue-800">Sunnat Muakkadah</p>
+                                <p class="text-gray-600 text-sm">Pehle 2 Rakat Sunnat padho (Fajr ki Sunnat bahut afzal hai — Nabi ﷺ ne farmaya yeh duniya aur jo kuch us mein hai us se behtar hai)</p>
+                                <a href="#" onclick="showTab('2rakat'); return false;" class="text-blue-600 text-xs underline">→ 2 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-red-800">FARZ ✅ (Zaroori)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Farz — Niyat mein "2 Rakat Farz Namaz Fajr ki" bolo</p>
+                                <a href="#" onclick="showTab('2rakat'); return false;" class="text-red-600 text-xs underline">→ 2 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg mt-4 text-center">
+                        <p class="text-green-800 font-bold">✅ Fajr Total: <span class="text-xl">4 Rakat</span> (2 Sunnat + 2 Farz)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ZUHR -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">☀️ ZUHR — Dopahar Ki Namaz</h3>
+                    <p class="text-gray-900 text-sm mt-1">Waqt: Zawal (Dopahar) Se Asr Tak</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <div class="bg-blue-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-blue-800">Sunnat Muakkadah (Pehle)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Sunnat padho Zuhr se pehle</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-blue-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-red-800">FARZ ✅ (Zaroori)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Farz — Niyat mein "4 Rakat Farz Namaz Zuhr ki" bolo</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-red-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400">
+                            <div class="bg-blue-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-blue-700">Sunnat Muakkadah (Baad Mein)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Sunnat Zuhr ke baad</p>
+                                <a href="#" onclick="showTab('2rakat'); return false;" class="text-blue-600 text-xs underline">→ 2 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-teal-50 p-4 rounded-xl border-l-4 border-teal-400">
+                            <div class="bg-teal-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-teal-700">Nafl (Optional)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Nafl — padh sakte ho sawab ke liye</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg mt-4 text-center">
+                        <p class="text-green-800 font-bold">✅ Zuhr Total: <span class="text-xl">10-12 Rakat</span> (4S + 4F + 2S + 2N optional)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASR -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-red-400 text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">🌇 ASR — Shaam Se Pehle Ki Namaz</h3>
+                    <p class="text-white text-sm mt-1">Waqt: Asr Se Maghrib Tak (Suraj Dhalne Se Pehle)</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 bg-indigo-50 p-4 rounded-xl border-l-4 border-indigo-400">
+                            <div class="bg-indigo-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-indigo-700">Sunnat Ghair Muakkadah (Optional)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Sunnat G.M. — padh sakte ho, sawab milega</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-indigo-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-red-800">FARZ ✅ (Zaroori)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Farz — Niyat mein "4 Rakat Farz Namaz Asr ki" bolo</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-red-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-400 p-3 rounded-lg mt-3">
+                        <p class="text-yellow-800 font-semibold">⚠️ Asr ke baad Nafl mat padho suraj dhalne tak!</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg mt-3 text-center">
+                        <p class="text-green-800 font-bold">✅ Asr Total: <span class="text-xl">4-8 Rakat</span> (4S optional + 4F)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAGHRIB -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">🌆 MAGHRIB — Suraj Dhalne Ke Baad Ki Namaz</h3>
+                    <p class="text-gray-800 text-sm mt-1">Waqt: Suraj Dhalne Ke Baad Se Isha Tak</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">3<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-red-800">FARZ ✅ (Zaroori)</p>
+                                <p class="text-gray-600 text-sm">3 Rakat Farz — Niyat mein "3 Rakat Farz Namaz Maghrib ki" bolo</p>
+                                <a href="#" onclick="showTab('3rakat'); return false;" class="text-red-600 text-xs underline">→ 3 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <div class="bg-blue-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-blue-800">Sunnat Muakkadah</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Sunnat Maghrib ke baad foran padho</p>
+                                <a href="#" onclick="showTab('2rakat'); return false;" class="text-blue-600 text-xs underline">→ 2 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-teal-50 p-4 rounded-xl border-l-4 border-teal-400">
+                            <div class="bg-teal-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-teal-700">Nafl (Optional)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Nafl aur padh sakte ho extra sawab ke liye</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg mt-4 text-center">
+                        <p class="text-green-800 font-bold">✅ Maghrib Total: <span class="text-xl">5-7 Rakat</span> (3F + 2S + 2N optional)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISHA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-4 px-6">
+                    <h3 class="text-xl font-bold">🌙 ISHA — Raat Ki Namaz</h3>
+                    <p class="text-white text-sm mt-1">Waqt: Raat Ke Andhere Ke Baad Se Subah Saadiq Tak</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4 bg-indigo-50 p-4 rounded-xl border-l-4 border-indigo-400">
+                            <div class="bg-indigo-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-indigo-700">Sunnat Ghair Muakkadah (Pehle)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Sunnat G.M. — Optional, sawab ke liye padho</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-indigo-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">4<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-red-800">FARZ ✅ (Zaroori)</p>
+                                <p class="text-gray-600 text-sm">4 Rakat Farz — Niyat mein "4 Rakat Farz Namaz Isha ki" bolo</p>
+                                <a href="#" onclick="showTab('4rakat'); return false;" class="text-red-600 text-xs underline">→ 4 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <div class="bg-blue-600 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-blue-800">Sunnat Muakkadah (Baad Mein)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Sunnat Isha ke baad</p>
+                                <a href="#" onclick="showTab('2rakat'); return false;" class="text-blue-600 text-xs underline">→ 2 Rakat Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-purple-50 p-4 rounded-xl border-l-4 border-purple-600">
+                            <div class="bg-purple-700 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">3<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-purple-800">⭐ WITR (Wajib — Zaroori)</p>
+                                <p class="text-gray-600 text-sm">3 Rakat Witr — Isha ke bilkul aakhir mein padho. Wajib hai!</p>
+                                <a href="#" onclick="showTab('witr'); return false;" class="text-purple-600 text-xs underline">→ Witr Tab Dekho</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-teal-50 p-4 rounded-xl border-l-4 border-teal-400">
+                            <div class="bg-teal-500 text-white w-14 h-14 rounded-xl flex items-center justify-center text-center font-bold text-sm flex-shrink-0">2<br>Rakat</div>
+                            <div>
+                                <p class="font-bold text-teal-700">Nafl (Optional)</p>
+                                <p class="text-gray-600 text-sm">2 Rakat Nafl — extra sawab ke liye</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg mt-4 text-center">
+                        <p class="text-green-800 font-bold">✅ Isha Total: <span class="text-xl">13-15 Rakat</span> (4S.GM + 4F + 2S.M + 3W + 2N optional)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAILY SUMMARY TABLE -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-green-700 mb-4 text-center">📋 Roz Ki Namaz — Quick Reference Table</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-green-700 text-white">
+                                <th class="p-2 text-left rounded-tl-lg">Waqt</th>
+                                <th class="p-2 text-center">Sunnat (Pehle)</th>
+                                <th class="p-2 text-center">FARZ</th>
+                                <th class="p-2 text-center">Sunnat (Baad)</th>
+                                <th class="p-2 text-center">Witr</th>
+                                <th class="p-2 text-center rounded-tr-lg">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2 font-bold">🌅 Fajr</td>
+                                <td class="p-2 text-center text-blue-700 font-bold">2 (M)</td>
+                                <td class="p-2 text-center text-red-700 font-bold">2</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center font-bold bg-green-50">4</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2 font-bold">☀️ Zuhr</td>
+                                <td class="p-2 text-center text-blue-700 font-bold">4 (M)</td>
+                                <td class="p-2 text-center text-red-700 font-bold">4</td>
+                                <td class="p-2 text-center text-blue-600 font-bold">2 (M)</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center font-bold bg-green-50">10</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2 font-bold">🌇 Asr</td>
+                                <td class="p-2 text-center text-indigo-600">4 (GM)</td>
+                                <td class="p-2 text-center text-red-700 font-bold">4</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center font-bold bg-green-50">4-8</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2 font-bold">🌆 Maghrib</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center text-red-700 font-bold">3</td>
+                                <td class="p-2 text-center text-blue-700 font-bold">2 (M)</td>
+                                <td class="p-2 text-center text-gray-400">—</td>
+                                <td class="p-2 text-center font-bold bg-green-50">5</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-2 font-bold">🌙 Isha</td>
+                                <td class="p-2 text-center text-indigo-600">4 (GM)</td>
+                                <td class="p-2 text-center text-red-700 font-bold">4</td>
+                                <td class="p-2 text-center text-blue-700 font-bold">2 (M)</td>
+                                <td class="p-2 text-center text-purple-700 font-bold">3W</td>
+                                <td class="p-2 text-center font-bold bg-green-50">13</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-green-700 text-white">
+                                <td class="p-2 font-bold rounded-bl-lg">TOTAL</td>
+                                <td class="p-2 text-center font-bold">10+4</td>
+                                <td class="p-2 text-center font-bold">17</td>
+                                <td class="p-2 text-center font-bold">6</td>
+                                <td class="p-2 text-center font-bold">3</td>
+                                <td class="p-2 text-center font-bold rounded-br-lg">36-40</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <p class="text-xs text-gray-500 mt-2 text-center">M = Muakkadah | GM = Ghair Muakkadah | W = Witr</p>
+            </div>
+        </section>
+
+        <!-- ========== TAB: WITR NAMAZ ========== -->
+        <section id="content-witr" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">🌙 Witr Namaz</h2>
+            <p class="text-center text-gray-600 mb-6">3 Rakat — Isha Ke Baad — Poora Tareeqa</p>
+
+            <!-- WITR INFO -->
+            <div class="bg-purple-700 text-white rounded-2xl p-6 mb-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div>
+                        <p class="text-purple-200 text-sm">Rakaat</p>
+                        <p class="text-3xl font-bold">3</p>
+                    </div>
+                    <div>
+                        <p class="text-purple-200 text-sm">Hukm</p>
+                        <p class="text-xl font-bold">Wajib ⚠️</p>
+                    </div>
+                    <div>
+                        <p class="text-purple-200 text-sm">Waqt</p>
+                        <p class="text-xl font-bold">Isha Ke Baad</p>
+                    </div>
+                    <div>
+                        <p class="text-purple-200 text-sm">Khatam</p>
+                        <p class="text-xl font-bold">Fajr Se Pehle</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMPORTANT NOTE -->
+            <div class="warning-box p-5 mb-6">
+                <p class="text-red-700 font-bold text-lg">⚠️ Witr Mein Khaas Baat:</p>
+                <ul class="text-red-600 mt-2 space-y-1">
+                    <li>✅ Teesri Rakat mein <strong>Dua-e-Qunoot</strong> padhni hoti hai (before Ruku)</li>
+                    <li>✅ 2 rakat ke baad baithna nahi hota sirf Attahiyat ki niyat se — seedha uthna hai</li>
+                    <li>✅ Aakhri rakat mein Ruku se pehle haath uthao aur Dua Qunoot padho</li>
+                </ul>
+            </div>
+
+            <!-- RAKAT 1 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Pehli Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Niyat Karein</p>
+                        <div class="dua-box p-3 mt-2">
+                            <p class="text-green-800 italic font-medium">"Main niyat karta/karti hoon 3 Rakat Witr Wajib ki, Allah ke liye, muh mera Qibla ki taraf."</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Takbeer-e-Tahrima</p>
+                        <p class="text-gray-700">Haath kaano tak uthao aur bolo:</p>
+                        <div class="dua-box p-3 mt-2"><p class="arabic-text text-green-800">"Allahu Akbar"</p></div>
+                        <p class="text-gray-600 text-sm mt-1">Phir haath baandh lo.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Sana Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">Subhanaka Allahumma wa bihamdika, wa tabarakasmuka, wa ta'ala jadduka, wa la ilaha ghairuk.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">4️⃣ Taawwuz + Tasmiyah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800">A'udhu Billahi Minash Shaitanir Rajeem</p>
+                            <p class="arabic-text text-green-800 mt-2">Bismillahir Rahmanir Raheem</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">5️⃣ Surah Fatiha + Koi Surah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                        <div class="dua-box p-4 mt-3">
+                            <p class="text-gray-600 text-sm mb-2">📖 Phir Surah Ikhlas ya koi aur surah padho:</p>
+                            <p class="arabic-text text-green-800">Qul Huwallahu Ahad. Allahus-Samad. Lam Yalid Wa Lam Yoolad. Wa Lam Yakullahu Kufuwan Ahad.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">6️⃣ Ruku → Qauma → 2 Sajde</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="dua-box p-3 text-center">
+                                <p class="text-xs text-gray-600 mb-1">Ruku (3x)</p>
+                                <p class="arabic-text text-green-800 text-sm">"Subhana Rabbiyal Azeem"</p>
+                            </div>
+                            <div class="dua-box p-3 text-center">
+                                <p class="text-xs text-gray-600 mb-1">Qauma</p>
+                                <p class="arabic-text text-green-800 text-sm">"Rabbana Lakal Hamd"</p>
+                            </div>
+                            <div class="dua-box p-3 text-center">
+                                <p class="text-xs text-gray-600 mb-1">Sajda (3x each)</p>
+                                <p class="arabic-text text-green-800 text-sm">"Subhana Rabbiyal A'la"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 2 -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="rakat-header text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Doosri Rakat</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">1️⃣ Khade Ho Jayein</p>
+                        <p class="text-gray-700">"Allahu Akbar" bolte hue doosri rakat ke liye khade ho jao.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">2️⃣ Bismillah + Surah Fatiha + Koi Surah</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                        <div class="dua-box p-4 mt-3">
+                            <p class="text-gray-600 text-sm mb-2">📖 Phir koi surah padho — jaise Surah Kawthar:</p>
+                            <p class="arabic-text text-green-800">Inna A'taina kal Kawthar. Fa Salli Li Rabbika Wanhar. Inna Shani-aka Huwal Abtar.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-2">3️⃣ Ruku → Qauma → 2 Sajde</p>
+                        <p class="text-gray-600 text-sm">Same as Pehli Rakat — Ruku, Qauma, Dono Sajde karo.</p>
+                    </div>
+                    <!-- IMPORTANT: No sitting for Attahiyat -->
+                    <div class="bg-orange-100 border-2 border-orange-500 rounded-xl p-4">
+                        <p class="font-bold text-orange-800 text-lg">⚡ ZAROORI: Doosre Sajde Ke Baad SEEDHA UTHNA HAI!</p>
+                        <p class="text-orange-700 mt-1">❌ Yahan baithna NAHI hai (Qa'dah Oola nahi hoti Witr mein)</p>
+                        <p class="text-orange-700">"Allahu Akbar" bolte hue seedha teesri rakat ke liye khade ho jao ✅</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAKAT 3 — WITH DUA QUNOOT -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-purple-700 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">📿 Teesri Rakat — DUA QUNOOT WALI ⭐</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="font-bold text-purple-800 mb-2">1️⃣ Bismillah + Surah Fatiha Padho</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 mb-2">Bismillahir Rahmanir Raheem</p>
+                            <p class="arabic-text text-green-800 leading-relaxed">Alhamdulillahi Rabbil 'Alameen. Ar-Rahmanir-Raheem. Maliki Yawmid-Deen. Iyyaka Na'budu wa Iyyaka Nasta'een. Ihdinas-Siraatal Mustaqeem. Siraatal Lazeena An'amta 'Alaihim, Ghairil Maghdooobi 'Alaihim Walad-Daalleen. (Ameen)</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="font-bold text-purple-800 mb-2">2️⃣ Koi Surah Padho</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="text-gray-600 text-sm mb-2">📖 Surah Ikhlas ya koi surah padho:</p>
+                            <p class="arabic-text text-green-800">Qul Huwallahu Ahad. Allahus-Samad. Lam Yalid Wa Lam Yoolad. Wa Lam Yakullahu Kufuwan Ahad.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- DUA QUNOOT - STAR SECTION -->
+                    <div class="bg-green-800 rounded-2xl p-5 mt-2">
+                        <p class="font-bold text-white text-xl mb-4 text-center">⭐ 3️⃣ DUA-E-QUNOOT — Surah Ke Baad, Ruku Se PEHLE</p>
+
+                        <!-- Steps -->
+                        <div class="bg-yellow-400 rounded-xl p-4 mb-4">
+                            <p class="text-gray-900 font-bold mb-1">📌 Step 1:</p>
+                            <p class="text-gray-900 font-semibold">"Allahu Akbar" bolte hue haath kaano tak uthao</p>
+                            <p class="text-gray-900 font-bold mt-2 mb-1">📌 Step 2:</p>
+                            <p class="text-gray-900 font-semibold">Haath baandh lo aur Dua Qunoot padho 👇</p>
+                        </div>
+
+                        <!-- Dua Qunoot Arabic -->
+                        <div class="bg-white rounded-xl p-5 mb-4">
+                            <p class="font-bold text-green-800 mb-3 text-center text-sm uppercase tracking-wide">📖 Dua Qunoot (Roman Urdu)</p>
+                            <div class="space-y-1">
+                                <p class="arabic-text text-gray-900 font-semibold">Allahumma Inna Nasta'eenuka Wa Nastaghfiruk.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Nu'minu Bika Wa Natawakkalu 'Alaik.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Nuthni 'Alaikal Khayr.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Nashkuruka Wala Nakfuruk.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Nakhla'u Wa Natruku Man Yafjuruk.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Allahumma Iyyaka Na'budu Wa Laka Nusalli Wa Nasjud.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Ilaika Nas'a Wa Nahfid.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Wa Narju Rahmataka Wa Nakhsha 'Azaabak.</p>
+                                <p class="arabic-text text-gray-900 font-semibold">Inna 'Azaabaka Bil Kuffari Mulhiq.</p>
+                            </div>
+                        </div>
+
+                        <!-- Meaning -->
+                        <div class="bg-white rounded-xl p-5">
+                            <p class="font-bold text-green-800 mb-3 text-center">📖 Dua Qunoot Ka Matlab (Hindi/Urdu):</p>
+                            <div class="space-y-2 text-gray-800 text-sm leading-relaxed">
+                                <p>🤲 <strong>"Aye Allah!</strong> Hum tujhse madad maangte hain aur tujhse maafi maangte hain."</p>
+                                <p>💚 <strong>"Hum tujh par imaan rakhte hain</strong> aur tujh par poora bharosa karte hain."</p>
+                                <p>🙏 <strong>"Hum teri bahut achhi taareef karte hain.</strong> Hum tujhara shukar ada karte hain, na-shukriye nahi karte."</p>
+                                <p>✋ <strong>"Hum chhod dete hain</strong> har us shakhs ko jo teri nafarmani kare."</p>
+                                <p>🕌 <strong>"Aye Allah! Tujhi ki hum ibadat karte hain,</strong> tere hi liye namaz padhte hain aur sajda karte hain."</p>
+                                <p>💫 <strong>"Hum teri rehmat ki ummeed rakhte hain</strong> aur tere azab se darte hain."</p>
+                                <p>⚠️ <strong>"Beshak tera azab</strong> kafiron ko milne wala hai."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="font-bold text-purple-800 mb-2">4️⃣ Dua Qunoot Ke Baad Ruku Mein Jao</p>
+                        <div class="dua-box p-3 mt-2">
+                            <p class="text-gray-600 text-sm">"Allahu Akbar" bolte hue Ruku mein jao. 3 martaba padho:</p>
+                            <p class="arabic-text text-green-800 mt-1">"Subhana Rabbiyal Azeem"</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="font-bold text-purple-800 mb-2">5️⃣ Qauma (Khade Ho Jao)</p>
+                        <div class="dua-box p-3 mt-2">
+                            <p class="arabic-text text-green-800">"Sami Allahu Liman Hamidah"</p>
+                            <p class="arabic-text text-green-800 mt-2">"Rabbana Lakal Hamd"</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <p class="font-bold text-purple-800 mb-2">6️⃣ Dono Sajde Karo</p>
+                        <div class="dua-box p-3 mt-2">
+                            <p class="text-gray-600 text-sm">Har sajde mein 3 martaba:</p>
+                            <p class="arabic-text text-green-800">"Subhana Rabbiyal A'la"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL SITTING WITR -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-amber-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🪑 Aakhri Baithak (Qa'dah Akhira)</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">1️⃣ Attahiyat Padhein (Poori)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Attahiyatu Lillahi Wassalawatu Wattayyibatu. Assalamu 'Alaika Ayyuhan-Nabiyyu Wa Rahmatullahi Wa Barakatuhu. Assalamu 'Alaina Wa 'Ala 'Ibadillahis-Saliheen. Ash-hadu Alla Ilaha Illallahu Wa Ash-hadu Anna Muhammadan 'Abduhu Wa Rasuluh.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">2️⃣ Durood Shareef Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Sallaita 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed. Allahumma Barik 'Ala Muhammadin Wa 'Ala Aali Muhammadin Kama Barakta 'Ala Ibraheema Wa 'Ala Aali Ibraheema Innaka Hameedum Majeed.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">3️⃣ Dua Padhein</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 leading-relaxed">Allahumma Inni Zalamtu Nafsi Zulman Katheeran, Wa La Yaghfiruz-Zunooba Illa Anta, Faghfirlee Maghfiratan Min 'Indika Warhamnee Innaka Antal Ghafoorur Raheem.</p>
+                        </div>
+                    </div>
+                    <div class="step-card bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
+                        <p class="font-bold text-amber-800 mb-2">4️⃣ Salam Pherein (Dono Taraf)</p>
+                        <div class="dua-box p-4 mt-2">
+                            <p class="arabic-text text-green-800 text-xl">"Assalamu Alaikum Wa Rahmatullah"</p>
+                        </div>
+                        <p class="text-green-600 font-semibold mt-3 text-center text-lg">✅ Alhamdulillah! Witr Namaz Mukammal Hui! 🌙</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IF FORGOT DUA QUNOOT -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-orange-700 mb-4">💡 Kya Agar Dua Qunoot Bhool Gaye?</h3>
+                <div class="space-y-3">
+                    <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                        <p class="font-bold text-orange-800">Option 1: Sirf 3 baar yeh padho (Asaan Qunoot):</p>
+                        <div class="dua-box p-3 mt-2">
+                            <p class="arabic-text text-green-800">"Rabbana Aatina Fiddunya Hasanatan Wa Fil Aakhirati Hasanatan Wa Qina Azaban-Naar"</p>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                        <p class="font-bold text-yellow-800">Option 2: Bilkul bhool gaye toh?</p>
+                        <p class="text-gray-700 mt-1">Seedha ruku mein chale jao — Witr tab bhi ho jaayegi InshAllah. Baad mein Sajda-e-Sahw kar sakte ho.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: ZAROORI RULES ========== -->
+        <section id="content-rules" class="tab-content hidden fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-800 mb-2 text-center">⚠️ Zaroori Rules</h2>
+            <p class="text-center text-gray-600 mb-6">Namaz Ke Liye Aham Baatein — Poori Detail Mein</p>
+
+            <!-- SHARAAITE NAMAZ (CONDITIONS) -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-red-700 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🔴 Namaz Ki Sharaayet — Namaz Sahih Hone Ki Sharaat</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <p class="text-gray-700 mb-3">Agar yeh sharaayet poori nahi hain toh namaz sahih NAHI hogi ❌</p>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">1️⃣ Tahaarat (Paaki) — Wuzu Ya Ghusl</p>
+                        <p class="text-gray-700 mt-1">Badan, kapda aur jagah — teeno paak hone chahiye. Wuzu toot gaya? Dobara karo. Janabat hai? Ghusl karo pehle.</p>
+                    </div>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">2️⃣ Satrul Awrat — Parda</p>
+                        <p class="text-gray-700 mt-1">Mard ke liye: Naaf se ghutne tak chhupana farz. Aurat ke liye: Pura badan sirf chehra, haath aur pair chhhup sakta hai.</p>
+                    </div>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">3️⃣ Istiqbal-e-Qibla — Qibla Ki Taraf Muh</p>
+                        <p class="text-gray-700 mt-1">Kaaba ki seedhi taraf muh karna zaroori hai. India mein West (paschim) ki taraf. Qibla Finder app use karo.</p>
+                    </div>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">4️⃣ Waqt — Sahi Waqt Par Padhna</p>
+                        <p class="text-gray-700 mt-1">Har namaz apne muqarrar waqt par padhi jaaye. Waqt se pehle ya bahut baad mein parhna sahih nahi. Azan ke baad padho.</p>
+                    </div>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">5️⃣ Niyat — Dil Ka Irada</p>
+                        <p class="text-gray-700 mt-1">Dil mein clear hona chahiye ki kaunsi namaz padh raha hoon. Zuban se bolna zaroori nahi, lekin achha hai.</p>
+                    </div>
+                    <div class="step-card bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800">6️⃣ Takbeer-e-Tahrima</p>
+                        <p class="text-gray-700 mt-1">"Allahu Akbar" keh kar namaz shuru karna zaroori hai. Yeh nahi kaha toh namaz shuru hi nahi hui.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WUZU TOOTA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-orange-600 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🚫 Wuzu Kab Toota? — Namaz Kab Toot Jaayegi?</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <p class="text-gray-600 mb-3">Yeh cheezein hone par wuzu toot jaata hai aur namaz baatil ho jaati hai:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">💨 Hawa nikalna (Gas)</p>
+                            <p class="text-gray-600 text-sm">Chahe awaaz ho ya na ho — wuzu toot jaata hai</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">🚽 Peshab/Paakhana</p>
+                            <p class="text-gray-600 text-sm">Istinja karo phir dobara wuzu karo</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">😴 Neend</p>
+                            <p class="text-gray-600 text-sm">Lait ke ya baith ke so gaye toh wuzu toot jaata hai</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">🤢 Qay (Ulti)</p>
+                            <p class="text-gray-600 text-sm">Munh bhar qay aye toh wuzu toot jaata hai</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">🩸 Khoon ya Pus</p>
+                            <p class="text-gray-600 text-sm">Thodi si jagah se bahut nikla toh wuzu toot jaata hai</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-500">
+                            <p class="font-bold text-orange-800">😵 Behoshi</p>
+                            <p class="text-gray-600 text-sm">Behosh ho gaye ya pagal ho gaye toh wuzu toot jaata hai</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAMAZ MEIN KYA NAHI KARNA -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-gray-800 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">🚫 Namaz Mein Yeh BILKUL MAT Karo</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Baat Karna (Kalam)</p>
+                        <p class="text-gray-600 mt-1">Namaz mein kisi se baat karna — ek bhi lafz bolna — namaz baatil kar deta hai. Bilkul khamosh raho.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Idhar Udhar Dekhna</p>
+                        <p class="text-gray-600 mt-1">Nazrein sajde ki jagah par rakhni chahiye. Idhar udhar ghoomna makrooh hai aur sawab kam karta hai.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Jaldi Jaldi Padhna</p>
+                        <p class="text-gray-600 mt-1">Namaz itni tezi se nahi padhni ki koi posture sahi na ho. Ruku mein seedha jhukna, sajde mein ruk kar karna zaroori hai.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Mobile Use Karna</p>
+                        <p class="text-gray-600 mt-1">Namaz mein mobile uthana ya message karna — namaz toot jaati hai. Mobile Airplane mode par rakho.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Kapda Ya Jism Se Khelna</p>
+                        <p class="text-gray-600 mt-1">Kapda theek karna, kamar khujlana — yeh sab makrooh hai. Pehle se kapde sahi kar lo.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Ganda Ya Napak Jagah Par Padhna</p>
+                        <p class="text-gray-600 mt-1">Jagah paak honi chahiye. Musalla ya jaai-namaaz use karo — yeh sab se safe hai.</p>
+                    </div>
+                    <div class="step-card bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-gray-800">❌ Sajde Mein Sirf Naak Lagana</p>
+                        <p class="text-gray-600 mt-1">Sajde mein 7 aza (body parts) zameen par lagni chahiye: Maatha + Naak, Dono Haath, Dono Ghutne, Dono Pair ke angoothe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUNNAT ACTS IN NAMAZ -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 overflow-hidden">
+                <div class="bg-green-700 text-white py-3 px-6">
+                    <h3 class="text-xl font-bold">✅ Namaz Ko Behtareen Banao — Yeh Karo</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800">✅ Khushoo (Dhyan) Rakho</p>
+                        <p class="text-gray-600 mt-1">Dil aur dimag namaz mein lagao. Jo padh rahe ho uska matlab socho. Duniyavi soch hatao.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800">✅ Tarteel Se Padho (Sahih Tajweed)</p>
+                        <p class="text-gray-600 mt-1">Surah Fatiha aur doosri suratein sahih makhraj (pronunciation) se padho. Thoda thoda seekhte raho.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800">✅ Taqdeer Mein Yaqeen Rakhke Dua Mango</p>
+                        <p class="text-gray-600 mt-1">Namaz ke aakhir mein — salam pherne ke baad — khoob dua maango. Yeh qubooliyat ka waqt hai.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800">✅ Waqt Par Padho</p>
+                        <p class="text-gray-600 mt-1">Azan hone ke baad jitna jald ho sake namaz padh lo. Taal mat karo. Waqt par padhi namaz sabse afzal hai.</p>
+                    </div>
+                    <div class="step-card bg-green-50 p-4 rounded-lg">
+                        <p class="font-bold text-green-800">✅ Bajamat Padho (Congregation)</p>
+                        <p class="text-gray-600 mt-1">Masjid mein jamat ke saath namaz padhne ka sawab akele padhe se 27 guna zyada hai! Koshish karo har namaz masjid mein padho.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QAZA NAMAZ -->
+            <div class="bg-white rounded-2xl shadow-lg mb-6 p-6">
+                <h3 class="text-xl font-bold text-amber-700 mb-4">⏰ Qaza Namaz — Agar Chhoot Gayi Toh?</h3>
+                <div class="space-y-3">
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <p class="font-bold text-amber-800">Qaza kya hai?</p>
+                        <p class="text-gray-700 mt-1">Agar kisi wajah se namaz waqt par nahi padh sake toh baad mein us namaz ki "Qaza" padhni hoti hai. Qaza padhna farz hai — tark karna kabhi jaiz nahi.</p>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <p class="font-bold text-amber-800">Kaise padhe?</p>
+                        <p class="text-gray-700 mt-1">Bilkul same tareeqa — sirf niyat mein "Qaza" ka lafz add karo jaise: "Main niyat karta hoon 4 Rakat Farz Namaz Zuhr ki Qaza." Phir same steps follow karo.</p>
+                    </div>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <p class="font-bold text-red-800">⚠️ Dhyan dein:</p>
+                        <p class="text-gray-700 mt-1">Jaan booj kar namaz chhodni kabhi jaiz nahi. Qaza sirf mazoor (helpless) haalat mein hai. Aur agar kisi ka qaza-e-umri (bahut saari namaz chhooti hain) hai toh unhe nizam se ada karna hoga.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK REMINDER -->
+            <div class="bg-gradient-to-r from-green-700 to-emerald-600 text-white rounded-2xl p-6">
+                <h3 class="text-xl font-bold mb-4 text-center">💡 Beginner Ke Liye Golden Rules</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">1️⃣</span>
+                        <p>Pehle <strong>wuzu</strong> sahi karo — warna namaz valid nahi</p>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">2️⃣</span>
+                        <p>Dil mein <strong>niyat</strong> karo — kaunsi namaz aur kitni rakat</p>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">3️⃣</span>
+                        <p><strong>Qibla</strong> check karo pehle — India mein West ki taraf</p>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">4️⃣</span>
+                        <p><strong>Farz</strong> namaz kabhi mat chhoodo — yeh sabse pehle zaroori hai</p>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">5️⃣</span>
+                        <p>Ek ek karke <strong>practice</strong> karo — pehle Farz, phir Sunnat, phir Witr</p>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white p-3 rounded-xl">
+                        <span class="text-2xl">6️⃣</span>
+                        <p><strong>Khushoo</strong> — dil lagao namaz mein, yeh Allah se baat karne ka waqt hai ❤️</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="islamic-pattern text-white py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-green-100 text-sm">☪️ Namaz Guide - Hinglish Mein</p>
+            <p class="text-green-200 text-xs mt-2">Allah Aapki Namazon Ko Qubool Farmaye. Ameen.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            
+            // Show selected content
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            
+            // Add active class to selected tab
+            document.getElementById('tab-' + tabName).classList.add('tab-active');
+            
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize with first tab
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('taiyaari');
+        });
+    </script>
+</body>
+</html>
